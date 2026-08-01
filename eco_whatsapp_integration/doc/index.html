@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco WhatsApp Integration - Guide &amp; Manual</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-color: #10b981;
+            --secondary-color: #06b6d4;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top left, #111827, #030712);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .header-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin: 10px 0 0 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 0;
+            border-bottom: 2px solid rgba(255,255,255,0.05);
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-top: 25px;
+        }
+        ol, ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(255, 255, 255, 0.08);
+            color: #f43f5e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            font-family: 'Courier New', Courier, monospace;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            color: #a7f3d0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .placeholder-tag {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Eco WhatsApp Integration</h1>
+            <p>Odoo 18 Addon Installation Guide &amp; User Manual</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1: INSTALLATION GUIDE -->
+        <div class="section-card">
+            <h2>Part 1: Installation Guide</h2>
+            
+            <h3>Prerequisites</h3>
+            <ul>
+                <li><strong>Odoo Version:</strong> Odoo v18 (Community or Enterprise edition).</li>
+                <li><strong>Access Rights:</strong> Administrator privileges to install modules in the database.</li>
+            </ul>
+
+            <h3>Step-by-Step Installation</h3>
+            <ol>
+                <li>
+                    <strong>Extract the Files:</strong>
+                    Copy the <code>eco_whatsapp_integration</code> directory into your custom Odoo addons path folder.
+                </li>
+                <li>
+                    <strong>Restart Odoo Server:</strong>
+                    Restart your Odoo service so that the new addon folder is detected by the server:
+                    <pre>sudo service odoo-server restart</pre>
+                </li>
+                <li>
+                    <strong>Enable Developer Mode:</strong>
+                    Log into your Odoo instance, navigate to <strong>Settings</strong>, and click <strong>Activate Developer Mode</strong> at the bottom of the page.
+                </li>
+                <li>
+                    <strong>Update Apps List:</strong>
+                    Go to the <strong>Apps</strong> module and click on <strong>Update Apps List</strong> in the top header.
+                </li>
+                <li>
+                    <strong>Install the Module:</strong>
+                    Search for <code>Eco WhatsApp Integration</code> in the search bar, remove the default <code>Apps</code> filter if necessary, and click <strong>Install</strong>.
+                </li>
+            </ol>
+        </div>
+
+        <!-- SECTION 2: SYSTEM CONFIGURATION -->
+        <div class="section-card">
+            <h2>Part 2: Module Configuration</h2>
+            <p>Once installed, configure settings under the main menu:</p>
+            <p><code>Settings > Eco WhatsApp</code> or <code>Eco WhatsApp > Settings</code></p>
+            
+            <h3>Configuration Options</h3>
+            <ul>
+                <li><strong>Enable/Disable:</strong> Master switch to activate or deactivate the WhatsApp draft generation workflow.</li>
+                <li><strong>Greetings:</strong> When enabled, automatically starts drafts with <code>Dear [Customer Name],</code>.</li>
+                <li><strong>Item Details:</strong> When active, lists line items including Quantity, Unit Price, and line totals. When disabled, only a simple bulleted name list is printed.</li>
+                <li><strong>Tax Display:</strong> Enables the display of VAT/Taxes in the total breakdowns.</li>
+                <li><strong>Document Portal Links:</strong> Appends a secure sharing link (Portal URL) to invoices, bills, orders, receipts, and payslips.</li>
+                <li><strong>Company Signature:</strong> Configures the closing text appended to the bottom of all drafts.</li>
+            </ul>
+
+            <h3>Supported Placeholders</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Placeholder</th>
+                        <th>Description</th>
+                        <th>Example Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code class="placeholder-tag">{{partner_name}}</code></td>
+                        <td>Name of the Customer / Supplier</td>
+                        <td>John Doe</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{invoice_number}}</code></td>
+                        <td>Reference code of Customer Invoices / Quotation</td>
+                        <td>INV/2026/0001</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{bill_number}}</code></td>
+                        <td>Reference code of Vendor Bills / RFQ</td>
+                        <td>BILL/2026/0002</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{receipt_number}}</code></td>
+                        <td>Point of Sale Order ticket reference</td>
+                        <td>POS/2026/01/01</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{date}}</code></td>
+                        <td>Document date (formated as DD-MMM-YYYY)</td>
+                        <td>25-Jun-2026</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{items}}</code></td>
+                        <td>Formatted string of products/line items</td>
+                        <td>1. Product A (Qty: 2...)</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{subtotal}}</code></td>
+                        <td>Amount before tax / basic salary for payslips</td>
+                        <td>1,200.00</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{tax}}</code></td>
+                        <td>Taxes total amount</td>
+                        <td>120.00</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{total}}</code></td>
+                        <td>Grand total amount</td>
+                        <td>1,320.00</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{employee_name}}</code></td>
+                        <td>Employee name for Payslip documents</td>
+                        <td>Jane Smith</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{net_salary}}</code></td>
+                        <td>Take home salary total</td>
+                        <td>3,500.00</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{document_url}}</code></td>
+                        <td>Secure Portal Link to view online</td>
+                        <td>https://portal.company.com/my/invoice/123</td>
+                    </tr>
+                    <tr>
+                        <td><code class="placeholder-tag">{{company_name}}</code></td>
+                        <td>Your current company name</td>
+                        <td>Eco Industries</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 3: USER MANUAL -->
+        <div class="section-card">
+            <h2>Part 3: User Manual</h2>
+
+            <h3>Sending Documents via Backend</h3>
+            <p>For all supported records (Invoices, Quotations, Purchase Orders, Delivery Orders, Payslips, Contacts), a <strong>Send via WhatsApp</strong> button will be visible in the header bar:</p>
+            <ol>
+                <li>Click the <strong>Send via WhatsApp</strong> button.</li>
+                <li>Odoo will check for a valid Mobile or Phone number (falling back to parent company number if empty).</li>
+                <li>A new browser tab will open redirecting to <code>https://web.whatsapp.com</code> pre-filled with the message template.</li>
+                <li>Review the draft in WhatsApp and manually press <strong>Send</strong>.</li>
+            </ol>
+
+            <h3>Bulk WhatsApp Sending</h3>
+            <p>From the list views of Customer Invoices, Vendor Bills, Sales Orders, or Purchase Orders:</p>
+            <ol>
+                <li>Select multiple records using checkboxes on the left.</li>
+                <li>Click the **Actions** dropdown menu (cog icon) and select <strong>Send via WhatsApp</strong>.</li>
+                <li>A popup wizard opens showing all selected records, target phones, and statuses.</li>
+                <li>Click <strong>Open WhatsApp</strong> for each item to launch tabs sequentially without being blocked by browser popup-blockers.</li>
+            </ol>
+
+            <h3>POS Order Validation Dialog</h3>
+            <p>After clicking "Validate" in Point of Sale, a modal popup will display options:</p>
+            <ul>
+                <li><strong>Send via WhatsApp:</strong> Prompts or allows verifying the customer's phone number, then opens WhatsApp Web with the ticket details and secure ticket viewing URL.</li>
+                <li><strong>Print Receipt:</strong> Triggers standard ticket printing.</li>
+                <li><strong>Close:</strong> Closes the popup and clears POS cart for the next customer.</li>
+            </ul>
+
+            <h3>Audit Logging</h3>
+            <p>To inspect all sent attempts, navigate to <strong>Eco WhatsApp > Audit Logs</strong>. This records the timestamp, user, customer, document reference, and phone number of each draft generated.</p>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Eco WhatsApp Integration Addon. All rights reserved by EcoBiz Bd.</p>
+    </div>
+
+</body>
+</html>

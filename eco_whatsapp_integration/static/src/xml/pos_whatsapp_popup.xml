@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="eco_whatsapp_integration.WhatsappPosPopup">
+        <Dialog title="'Eco WhatsApp Receipt Sharing'" size="'md'">
+            <div class="p-4">
+                <p class="text-muted mb-4">
+                    Send a receipt for this order via WhatsApp Web. Please confirm or enter the customer's phone number in international format.
+                </p>
+                <div class="mb-3">
+                    <label for="wa_phone" class="form-label font-weight-bold" style="font-weight: 600;">WhatsApp Number</label>
+                    <input type="text" id="wa_phone" class="form-control form-control-lg text-center" 
+                           t-model="state.phone" placeholder="e.g. +8801712345678" style="font-size: 1.25rem; font-weight: 600; letter-spacing: 0.5px; border-radius: 8px;"/>
+                </div>
+                
+                <t t-if="state.error">
+                    <div class="alert alert-danger" role="alert" style="margin-top: 15px; border-radius: 8px;">
+                        <t t-esc="state.error"/>
+                    </div>
+                </t>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary px-4 py-2" t-on-click="() => this.props.close()" style="border-radius: 8px;">
+                    Close
+                </button>
+                <button class="btn btn-info text-white px-4 py-2" t-on-click="() => this.printReceipt()" style="border-radius: 8px; background-color: #06b6d4; border-color: #06b6d4;">
+                    <i class="fa fa-print me-1"></i> Print Receipt
+                </button>
+                <button class="btn btn-success px-4 py-2" t-on-click="() => this.sendWhatsApp()" t-att-disabled="state.loading" style="border-radius: 8px; background-color: #10b981; border-color: #10b981;">
+                    <i class="fa fa-whatsapp me-1"></i> <t t-if="state.loading">Sending...</t><t t-else="">Send via WhatsApp</t>
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

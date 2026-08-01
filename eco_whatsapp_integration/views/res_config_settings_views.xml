@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.eco.whatsapp</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="25"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Eco WhatsApp" string="Eco WhatsApp Integration" name="eco_whatsapp_integration">
+                    <block title="General Configuration" name="general_config">
+                        <setting string="Eco WhatsApp Integration" help="Enable or disable WhatsApp Web message draft generation.">
+                            <field name="eco_wa_enabled"/>
+                        </setting>
+                    </block>
+                    
+                    <block title="Display Preferences" name="display_preferences" invisible="not eco_wa_enabled">
+                        <setting string="Greetings" help="Prepend customer greeting 'Dear [Customer Name],' to messages.">
+                            <field name="eco_wa_enable_greeting"/>
+                        </setting>
+                        <setting string="Item Details" help="Include quantity, unit price, and subtotal for lines.">
+                            <field name="eco_wa_enable_item_details"/>
+                        </setting>
+                        <setting string="Tax Display" help="Show tax breakdown/totals in messages.">
+                            <field name="eco_wa_enable_tax_display"/>
+                        </setting>
+                        <setting string="Document Portal Links" help="Include a public portal URL for document viewing.">
+                            <field name="eco_wa_enable_doc_links"/>
+                        </setting>
+                    </block>
+
+                    <block title="Message Templates" name="message_templates" invisible="not eco_wa_enabled">
+                        <setting string="Company Signature" help="Standard footer/signature for all messages.">
+                            <field name="eco_wa_signature" placeholder="Regards,&#10;{{company_name}}"/>
+                        </setting>
+                        <setting string="Customer Invoice" help="Template for customer invoices.">
+                            <field name="eco_wa_template_invoice" class="w-100" placeholder="Configure Invoice template..."/>
+                        </setting>
+                        <setting string="Vendor Bill" help="Template for vendor bills.">
+                            <field name="eco_wa_template_bill" class="w-100" placeholder="Configure Vendor Bill template..."/>
+                        </setting>
+                        <setting string="Sales Order / Quotation" help="Template for sales order and quotation documents.">
+                            <field name="eco_wa_template_sale" class="w-100" placeholder="Configure Sales Order template..."/>
+                        </setting>
+                        <setting string="Purchase Order / RFQ" help="Template for purchase orders and requests for quotation.">
+                            <field name="eco_wa_template_purchase" class="w-100" placeholder="Configure Purchase Order template..."/>
+                        </setting>
+                        <setting string="Employee Payslip" help="Template for employee payslips.">
+                            <field name="eco_wa_template_payslip" class="w-100" placeholder="Configure Payslip template..."/>
+                        </setting>
+                        <setting string="POS Receipt" help="Template for point of sale receipts.">
+                            <field name="eco_wa_template_pos" class="w-100" placeholder="Configure POS Receipt template..."/>
+                        </setting>
+                        <setting string="Contact Card / General" help="Template for standard contact card sharing.">
+                            <field name="eco_wa_template_contact" class="w-100" placeholder="Configure General Contact template..."/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Settings Action -->
+    <record id="action_eco_whatsapp_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'eco_whatsapp_integration'}</field>
+    </record>
+</odoo>

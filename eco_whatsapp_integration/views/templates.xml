@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Template for POS Receipt Public Page -->
+    <template id="pos_receipt_portal_template" name="POS Receipt Portal">
+        &lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>POS Receipt - <t t-esc="order.name"/></title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    body {
+                        font-family: 'Outfit', sans-serif;
+                        background: radial-gradient(circle at top left, #121824, #0a0d14);
+                        color: #e2e8f0;
+                        margin: 0;
+                        padding: 40px 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 100vh;
+                    }
+                    .receipt-card {
+                        background: rgba(30, 41, 59, 0.45);
+                        backdrop-filter: blur(16px);
+                        -webkit-backdrop-filter: blur(16px);
+                        border: 1px solid rgba(255, 255, 255, 0.08);
+                        border-radius: 24px;
+                        padding: 35px;
+                        width: 100%;
+                        max-width: 420px;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .receipt-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 4px;
+                        background: linear-gradient(90deg, #10b981, #06b6d4);
+                    }
+                    .logo-section {
+                        text-align: center;
+                        margin-bottom: 25px;
+                    }
+                    .company-name {
+                        font-size: 24px;
+                        font-weight: 800;
+                        background: linear-gradient(90deg, #10b981, #06b6d4);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        margin: 0;
+                    }
+                    .company-details {
+                        font-size: 13px;
+                        color: #94a3b8;
+                        margin-top: 5px;
+                    }
+                    .receipt-header {
+                        text-align: center;
+                        border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+                        padding-bottom: 20px;
+                        margin-bottom: 20px;
+                    }
+                    .receipt-title {
+                        font-size: 16px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        color: #f8fafc;
+                        margin: 0;
+                    }
+                    .receipt-meta {
+                        font-size: 12px;
+                        color: #94a3b8;
+                        margin-top: 8px;
+                    }
+                    .item-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 12px;
+                        font-size: 14px;
+                    }
+                    .item-name {
+                        color: #f1f5f9;
+                        flex: 1;
+                        padding-right: 15px;
+                    }
+                    .item-qty {
+                        color: #94a3b8;
+                        width: 50px;
+                        text-align: center;
+                    }
+                    .item-total {
+                        color: #f1f5f9;
+                        font-weight: 600;
+                        width: 80px;
+                        text-align: right;
+                    }
+                    .totals-section {
+                        border-top: 1px dashed rgba(255, 255, 255, 0.15);
+                        margin-top: 20px;
+                        padding-top: 15px;
+                    }
+                    .total-row {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 14px;
+                        margin-bottom: 8px;
+                        color: #94a3b8;
+                    }
+                    .grand-total {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 20px;
+                        font-weight: 800;
+                        color: #ffffff;
+                        margin-top: 15px;
+                        border-top: 1px solid rgba(255,255,255,0.08);
+                        padding-top: 15px;
+                    }
+                    .footer {
+                        text-align: center;
+                        margin-top: 30px;
+                        font-size: 12px;
+                        color: #94a3b8;
+                    }
+                    .footer p {
+                        margin: 4px 0;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="receipt-card">
+                    <div class="logo-section">
+                        <h1 class="company-name"><t t-esc="company.name"/></h1>
+                        <div class="company-details">
+                            <t t-if="company.street"><t t-esc="company.street"/><br/></t>
+                            <t t-if="company.phone">Tel: <t t-esc="company.phone"/></t>
+                        </div>
+                    </div>
+                    
+                    <div class="receipt-header">
+                        <h2 class="receipt-title">Sales Receipt</h2>
+                        <div class="receipt-meta">
+                            <div>Ref: <t t-esc="order.pos_reference or order.name"/></div>
+                            <div>Date: <t t-esc="order.date_order.strftime('%d-%b-%Y %H:%M:%S')"/></div>
+                        </div>
+                    </div>
+
+                    <div class="items-list">
+                        <t t-foreach="order.lines" t-as="line">
+                            <div class="item-row">
+                                <span class="item-name"><t t-esc="line.product_id.name"/></span>
+                                <span class="item-qty">x<t t-esc="int(line.qty)"/></span>
+                                <span class="item-total"><t t-esc="order.currency_id.symbol"/> <t t-esc="f'{line.price_subtotal_incl:,.2f}'"/></span>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span>Subtotal (excl. Tax)</span>
+                            <span><t t-esc="order.currency_id.symbol"/> <t t-esc="f'{order.amount_untaxed:,.2f}'"/></span>
+                        </div>
+                        <div class="total-row">
+                            <span>VAT/Taxes</span>
+                            <span><t t-esc="order.currency_id.symbol"/> <t t-esc="f'{order.amount_tax:,.2f}'"/></span>
+                        </div>
+                        <div class="grand-total">
+                            <span>TOTAL</span>
+                            <span><t t-esc="order.currency_id.symbol"/> <t t-esc="f'{order.amount_total:,.2f}'"/></span>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <p>Thank you for shopping with us!</p>
+                        <p>Visit us again</p>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+
+    <!-- Template for Employee Payslip Public Page -->
+    <template id="payslip_portal_template" name="Employee Payslip Portal">
+        &lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>Salary Statement - <t t-esc="payslip.name"/></title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    body {
+                        font-family: 'Outfit', sans-serif;
+                        background: radial-gradient(circle at top left, #0f172a, #020617);
+                        color: #e2e8f0;
+                        margin: 0;
+                        padding: 40px 20px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 100vh;
+                    }
+                    .payslip-container {
+                        background: rgba(30, 41, 59, 0.45);
+                        backdrop-filter: blur(16px);
+                        -webkit-backdrop-filter: blur(16px);
+                        border: 1px solid rgba(255, 255, 255, 0.08);
+                        border-radius: 24px;
+                        padding: 40px;
+                        width: 100%;
+                        max-width: 650px;
+                        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+                        position: relative;
+                    }
+                    .payslip-container::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        height: 4px;
+                        background: linear-gradient(90deg, #6366f1, #3b82f6);
+                    }
+                    .header-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                        padding-bottom: 25px;
+                        margin-bottom: 25px;
+                    }
+                    .title-section h1 {
+                        font-size: 24px;
+                        font-weight: 800;
+                        margin: 0;
+                        color: #ffffff;
+                    }
+                    .title-section p {
+                        font-size: 13px;
+                        color: #6366f1;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        margin: 5px 0 0 0;
+                    }
+                    .company-section {
+                        text-align: right;
+                    }
+                    .company-section h3 {
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin: 0;
+                        color: #ffffff;
+                    }
+                    .company-section p {
+                        font-size: 12px;
+                        color: #94a3b8;
+                        margin: 3px 0 0 0;
+                    }
+                    .info-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        background: rgba(255, 255, 255, 0.02);
+                        border: 1px solid rgba(255, 255, 255, 0.05);
+                        border-radius: 16px;
+                        padding: 20px;
+                        margin-bottom: 30px;
+                    }
+                    .info-item {
+                        font-size: 13px;
+                    }
+                    .info-label {
+                        color: #94a3b8;
+                        margin-bottom: 4px;
+                    }
+                    .info-value {
+                        color: #f1f5f9;
+                        font-weight: 600;
+                    }
+                    .table-title {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #ffffff;
+                        margin-bottom: 15px;
+                    }
+                    .salary-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 30px;
+                    }
+                    .salary-table th {
+                        text-align: left;
+                        font-size: 12px;
+                        font-weight: 600;
+                        color: #94a3b8;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        padding: 10px 15px;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                    }
+                    .salary-table td {
+                        padding: 12px 15px;
+                        font-size: 14px;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                    }
+                    .salary-table tr:hover td {
+                        background: rgba(255,255,255,0.01);
+                    }
+                    .col-code { color: #94a3b8; font-weight: 300; }
+                    .col-name { color: #f1f5f9; }
+                    .col-amount { color: #ffffff; font-weight: 600; text-align: right; }
+                    .net-pay-card {
+                        background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(59, 130, 246, 0.15));
+                        border: 1px solid rgba(99, 102, 241, 0.25);
+                        border-radius: 16px;
+                        padding: 25px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    .net-pay-label h3 {
+                        font-size: 18px;
+                        font-weight: 800;
+                        margin: 0;
+                        color: #ffffff;
+                    }
+                    .net-pay-label p {
+                        font-size: 12px;
+                        color: #94a3b8;
+                        margin: 3px 0 0 0;
+                    }
+                    .net-pay-amount {
+                        font-size: 28px;
+                        font-weight: 800;
+                        color: #818cf8;
+                    }
+                    .footer-sig {
+                        margin-top: 40px;
+                        text-align: center;
+                        font-size: 12px;
+                        color: #94a3b8;
+                        border-top: 1px solid rgba(255, 255, 255, 0.08);
+                        padding-top: 20px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="payslip-container">
+                    <div class="header-grid">
+                        <div class="title-section">
+                            <h1>Payslip</h1>
+                            <p>Salary Statement</p>
+                        </div>
+                        <div class="company-section">
+                            <h3><t t-esc="company.name"/></h3>
+                            <p>
+                                <t t-if="company.street"><t t-esc="company.street"/><br/></t>
+                                <t t-if="company.email"><t t-esc="company.email"/></t>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Employee Name</div>
+                            <div class="info-value"><t t-esc="employee.name"/></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Period</div>
+                            <div class="info-value"><t t-esc="payslip.date_from.strftime('%B %Y')"/></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Payslip Reference</div>
+                            <div class="info-value"><t t-esc="payslip.number or payslip.name"/></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Status</div>
+                            <div class="info-value" style="text-transform: capitalize;"><t t-esc="payslip.state"/></div>
+                        </div>
+                    </div>
+
+                    <h2 class="table-title">Earnings &amp; Deductions</h2>
+                    <table class="salary-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th style="text-align: right;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="payslip.line_ids.filtered(lambda l: l.code != 'NET' and l.total != 0)" t-as="line">
+                                <tr>
+                                    <td class="col-code"><t t-esc="line.code"/></td>
+                                    <td class="col-name"><t t-esc="line.name"/></td>
+                                    <td class="col-amount"><t t-esc="payslip.company_id.currency_id.symbol"/> <t t-esc="f'{line.total:,.2f}'"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <div class="net-pay-card">
+                        <div class="net-pay-label">
+                            <h3>Net Take-Home Pay</h3>
+                            <p>Direct Bank Transfer / Check</p>
+                        </div>
+                        <div class="net-pay-amount">
+                            <t t-set="net_rule" t-value="payslip.line_ids.filtered(lambda l: l.code == 'NET')"/>
+                            <t t-esc="payslip.company_id.currency_id.symbol"/>
+                            <t t-if="net_rule">
+                                <t t-esc="f'{net_rule[0].total:,.2f}'"/>
+                            </t>
+                            <t t-else="">
+                                0.00
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="footer-sig">
+                        <p>This is a computer generated document and does not require a physical signature.</p>
+                        <p>&amp;copy; <t t-esc="company.name"/> - Confidential Payroll Record</p>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </template>
+</odoo>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eco_whatsapp_bulk_wizard_form" model="ir.ui.view">
+        <field name="name">eco.whatsapp.bulk.wizard.form</field>
+        <field name="model">eco.whatsapp.bulk.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Bulk WhatsApp Messages">
+                <div class="alert alert-info" role="alert">
+                    Please click <strong>Open WhatsApp</strong> for each document to generate drafts in your browser. Since browser security prevents opening multiple tabs simultaneously, you can run them sequentially from the list below.
+                </div>
+                <field name="line_ids" readonly="1">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="document_name"/>
+                        <field name="partner_id"/>
+                        <field name="phone_number"/>
+                        <field name="status" widget="badge" decoration-success="status == 'opened'" decoration-warning="status == 'pending'"/>
+                        <button name="action_send" string="Open WhatsApp" type="object" class="btn-primary" icon="fa-whatsapp" invisible="status == 'opened'"/>
+                        <button name="action_send" string="Reopen WhatsApp" type="object" class="btn-secondary" icon="fa-refresh" invisible="status == 'pending'"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Server Actions for Bulk Send in Cog menus -->
+    <record id="action_bulk_whatsapp_invoice" model="ir.actions.server">
+        <field name="name">Send via WhatsApp</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'name': 'Send Bulk WhatsApp Messages',
+    'type': 'ir.actions.act_window',
+    'res_model': 'eco.whatsapp.bulk.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'context': dict(env.context),
+}
+        </field>
+    </record>
+
+    <record id="action_bulk_whatsapp_sale" model="ir.actions.server">
+        <field name="name">Send via WhatsApp</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'name': 'Send Bulk WhatsApp Messages',
+    'type': 'ir.actions.act_window',
+    'res_model': 'eco.whatsapp.bulk.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'context': dict(env.context),
+}
+        </field>
+    </record>
+
+    <record id="action_bulk_whatsapp_purchase" model="ir.actions.server">
+        <field name="name">Send via WhatsApp</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'name': 'Send Bulk WhatsApp Messages',
+    'type': 'ir.actions.act_window',
+    'res_model': 'eco.whatsapp.bulk.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+    'context': dict(env.context),
+}
+        </field>
+    </record>
+</odoo>
